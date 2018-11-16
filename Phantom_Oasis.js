@@ -104,9 +104,11 @@ function go(direction) {
             break;
         case "O": //OASIS
             process.stdin.pause();
-		    slowLog(oasis,20, () =>{
-                process.stdin.resume();
-            });
+		        slowLog(oasis,20, () =>{
+                    slowLog(bravo,1, () => {
+                        process.exit();
+                    } );
+                });
             break;
     };
 };
@@ -148,6 +150,10 @@ Que faire ?
 [PARTIR - CHERCHER - SAC]
 `;
 
+let bag =
+`
+Vous fouiller le contenu de votre sac :`
+
 let oasis = 
 /*`
 Alors que vous atteignez le haut d'une dune, un éclat bleuté vous frappe la rétine...
@@ -162,18 +168,22 @@ Alors que vous atteignez le haut d'une dune, un éclat bleuté vous frappe la r�
 Une grande marre bordé de verdure s'offre à vous, VOUS AVEZ ENFIN ATTEIND L'OASIS FANTÔME !
 
 LE VILLAGE EST SAUVÉ DE LA SÉCHERESSE !
+`;
 
+let bravo =
+`
 OOOOOOO  OOOOOOO  O        O   OOOOOO  O  OOOOOOO   OOOOO   OOOOOOO  O   OOOOO   OO    O   OOOOOO
 O        O        O           O              O     O     O     O        O     O  O O   O  O
 OOOOO    OOOOOOO  O        O  O        O     O     OOOOOOO     O     O  O     O  O  O  O   OOOOO
 O        O        O        O  O        O     O     O     O     O     O  O     O  O   O O        O
 O        OOOOOOO  OOOOOOO  O   OOOOOO  O     O     O     O     O     O   OOOOO   O    OO  OOOOOO
-`
+`;
+
 
 /* début du script ici */
 process.stdin.pause(); //stopper l'entrée pour ne pas pirater le texte
-slowLog(intro,0/*30*/,()=> {    
-    slowLog(
+    slowLog(intro,0/*30*/,()=> {    
+        slowLog(
 `
 Que faire ? 
 [PARTIR - CHERCHER - SAC]
@@ -207,8 +217,15 @@ process.stdin.on('data', (d) => {
 	}
 	if(rep == "E"){
         go("E")
-	}
-	
+    }
+    
+    if(rep == "SAC"){
+        process.stdin.pause(); //stopper l'entrée
+		slowLog(bag,10, () =>{
+			process.stdin.resume();//réactiver l'entrée à la fin du log
+		});
+    }
+
 });
 
 
